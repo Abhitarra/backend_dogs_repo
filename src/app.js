@@ -7,9 +7,23 @@ const compression = require('compression');
 const dogRoutes = require('./routes/dog.routes');
 const errorHandler = require('./middlewares/error.middleware');
 const connectDB = require('./config/db');
+const rateLimit = require("express-rate-limit");
 
+// apply to all routes
 const app = express();
 
+// Global limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 mins
+  max: 100, // max requests
+  message: {
+    success: false,
+    message: "Too many requests, please try again later"
+  }
+});
+
+
+app.use(limiter);
 app.use(cors({
   credentials: true
 }));
