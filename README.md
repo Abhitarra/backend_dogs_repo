@@ -78,7 +78,7 @@ JWT_SECRET = dogs_api_secret_key
 # 📦 Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Abhitarra/backend_dogs_repo.git
 cd Backend_Dogs_Api
 npm install
 npm run start:dev
