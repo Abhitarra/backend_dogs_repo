@@ -1,44 +1,52 @@
 # 🐶 Dog Management API (Node.js + MongoDB)
 
-A full-stack-ready backend system to manage dogs with **authentication and soft delete functionality**.
-Designed with clean architecture (**Controller → Service → Repository**) and built for scalability.
+A scalable backend system for managing dog breeds with authentication, authorization, and soft delete functionality.
+
+Built using clean architecture:
+**Controller → Service → Repository**
 
 ---
 
-# 🚀 Features
+## 🌍 Live API
 
-## 🔐 Authentication & Authorization
+🔗 Base URL: https://backend-dogs-repo.onrender.com/
+
+---
+
+## 🚀 Features
+
+### 🔐 Authentication
 
 * User Signup & Login
+* Forgot Password functionality
 * JWT-based authentication
-* Role-based access:
+* Role-based access control
 
-  * 👤 User → Manage own dogs
-
----
-
-## 🐶 Dog Management (CRUD)
+### 🐶 Dog Management (CRUD)
 
 * Create dog
 * Fetch dogs (with filters & pagination)
 * Update dog
-* Soft delete dog (no permanent deletion)
+* Soft delete dog
 
----
+### 🧾 Advanced Features
 
-## 🧾 Advanced Features
-
-* Soft delete (`isDeleted`, `deletedBy`, `deletedAt`)
-* Audit fields:
-
-  * `createdBy`
-  * `updatedBy`
+* Soft delete support
+* Audit fields (`createdBy`, `updatedBy`)
 * Pagination & filtering
 * Sorting support
 
+### 🛡️ Security
+
+* JWT authentication
+* Password hashing using bcrypt
+* CORS enabled
+* Helmet security headers
+* 🚦 **Rate limiting (express-rate-limit)** to prevent abuse
+
 ---
 
-# 🧱 Project Structure
+## 🧱 Project Structure
 
 ```
 src/
@@ -53,93 +61,71 @@ src/
 
 ---
 
-# ⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 * Node.js
 * Express.js
 * MongoDB + Mongoose
 * JWT Authentication
-* Bcrypt (password hashing)
+* Bcrypt
+* Express Rate Limiter
+* Render (Deployment)
+* MongoDB Atlas
 
 ---
 
-# 🔑 Environment Variables
+## 🔑 Environment Variables
 
-Create a `.env` file in root:
+Create a `.env` file:
 
 ```
-MONGO_URI = mongodb://127.0.0.1:27017/dogsdb
-PORT = 5000
-JWT_SECRET = dogs_api_secret_key
+MONGO_URI=mongodb://127.0.0.1:27017/dogsdb
+PORT=5000
+JWT_SECRET=dogs_api_secret_key
+```
+
+### Production
+
+```
+MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/dogsdb
 ```
 
 ---
 
-# 📦 Installation
+## 📦 Installation
 
 ```bash
 git clone https://github.com/Abhitarra/backend_dogs_repo.git
-cd Backend_Dogs_Api
+cd backend_dogs_repo
 npm install
 npm run start:dev
 ```
 
 ---
 
-# 🔐 Authentication APIs
+## 🔐 Authentication APIs
 
-## Signup
-
-```
-POST /auth/signup
-```
-
-## Login
-
-```
-POST /auth/login
-```
-
-Response:
-
-```
-{
-  "token": "JWT_TOKEN",
-  "role": "user | admin"
-}
-```
+| Method | Endpoint              | Description    |
+| ------ | --------------------- | -------------- |
+| POST   | /auth/signup          | Register user  |
+| POST   | /auth/login           | Login user     |
+| POST   | /auth/forgot-password | Reset password |
+| POST   | /auth/reset-password  | Reset password |
 
 ---
 
-# 🐶 Dog APIs
+## 🐶 Dog APIs
 
-## Create Dog
-
-```
-POST /dogs/create
-```
-
-## Fetch Dogs
-
-```
-GET /dogs/fetch?page=1&limit=10&breed=lab
-```
-
-## Update Dog
-
-```
-PUT /dogs/update/:id
-```
-
-## Delete Dog (Soft Delete)
-
-```
-DELETE /dogs/delete/:id
-```
+| Method | Endpoint         | Description     |
+| ------ | ---------------- | --------------- |
+| GET    | /dogs/fetch      | Get dogs        |
+| POST   | /dogs/create     | Create dog      |
+| PUT    | /dogs/update/:id | Update dog      |
+| DELETE | /dogs/delete/:id | Soft delete dog |
 
 ---
 
-# 🔐 Authorization
+## 🔐 Authorization
 
 All protected routes require:
 
@@ -149,18 +135,36 @@ Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-# 🧠 Business Logic
+## 🧪 Sample Request
 
-* Users can only:
+### Forgot Password
 
-  * View the dogs
-  * Update/Delete the dogs
+```
+POST /auth/reset-password
+```
+
+Body:
+
+```
+{
+  "email": "user@example.com",
+  "newPassword": "NewPassword123"
+}
+```
 
 ---
 
-# 🗑️ Soft Delete Logic
+## 🚦 Rate Limiting
 
-Instead of deleting records:
+To prevent abuse, API requests are limited:
+
+* Limits repeated requests from same IP
+* Protects authentication endpoints
+* Helps prevent brute-force attacks
+
+---
+
+## 🗑️ Soft Delete Logic
 
 ```
 isDeleted = true
@@ -170,37 +174,49 @@ deletedAt = timestamp
 
 ---
 
-# 🧪 Testing
+## 🚀 Deployment
 
-Use tools like:
+### Backend (Render)
 
-* Postman
-* Thunder Client
+* Hosted on Render
+* MongoDB Atlas integration
+* Environment variables configured
 
 ---
 
-# 📌 Future Improvements
+## 📚 Learnings
 
-* OTP-based email verification
-* Activity log tracking
+* Clean architecture design
+* JWT authentication & authorization
+* Rate limiting & API security
+* MongoDB schema design
+* REST API best practices
+
+---
+
+## 📌 Future Improvements
+
+* OTP-based email reset
+* Activity logs
 * Restore deleted records
-* Rate limiting & security enhancements
-* Frontend integration (React)
+* Advanced security layers
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
-Abhishek Tarra
-Node.js Backend Developer
+**Abhishek Tarra**
 
 ---
 
-# ⭐ Notes
+## ⭐ Notes
 
 This project demonstrates:
 
-* Clean architecture
+* Scalable backend architecture
 * Secure API design
-* Real-world backend patterns
-* Scalable structure for production apps
+* Production-ready patterns
+
+---
+
+✨ *Happy Coding!* 🚀

@@ -30,7 +30,7 @@ app.use(compression());
 app.use(limiter);
 
 app.use("/auth", require("./routes/auth.routes"));
-app.use('/api/dogs', dogRoutes);
+app.use('/dogs', dogRoutes);
 
 app.get('/', (req, res) => {
   res.send('Dogs API is running 🚀');

@@ -19,8 +19,11 @@ exports.signup = async ({ email, password }) => {
 exports.login = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("Invalid credentials");
-
+  console.log("User found:", user);
+  const hashed = await bcrypt.hash(password, 10);
+  console.log("hashed password:", hashed, "with hash:", user.password);
   const match = await bcrypt.compare(password, user.password);
+  console.log("Password match:", match);
   if (!match) throw new Error("Invalid credentials");
   const token = jwt.sign(
     {
@@ -45,11 +48,10 @@ exports.forgotPassword = async (email) => {
     password: user.password,
   };
 };
-
-exports.resetPassword = async (password) => { 
+``
+exports.resetPassword = async ({ email, password }) => { 
   const hashed = await bcrypt.hash(password, 10);
-  // For demo, we update the first user. In real app, identify user via token or email.
-  const user = await User.findOneAndUpdate({}, { password: hashed }, { new: true });
+  const user = await User.findOneAndUpdate({ email }, { password: hashed }, { new: true });
   if (!user) return { success: false, message: "User not found" };
   return { success: true, message: "Password reset successful" };
 };
