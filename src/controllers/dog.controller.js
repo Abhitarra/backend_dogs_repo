@@ -30,8 +30,7 @@ exports.updateDog = async (req, res) => {
   const updateData = {
     ...req.body,
     updatedBy: req.user.id,
-  };
-  console.log("Update Data:", updateData);      
+  };  
   const dog = await service.updateDog(req.params.id, updateData);
   logger.info(`Dog updated successfully: ${req.params.id}`);
   return response.success(res, MSG.DOG_UPDATED, dog);

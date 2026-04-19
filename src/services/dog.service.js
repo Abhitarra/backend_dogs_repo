@@ -54,7 +54,6 @@ exports.getDogs = async (query) => {
     const sort = { [sortBy || "breed"]: order === "desc" ? -1 : 1 };
 
     const dogs = await repo.findAll(filter, skip, limit, sort);
-    console.log(`Fetched ${JSON.stringify(dogs)} dogs with filter:`, filter);
     const total = await repo.countDocuments(filter);
     if (dogs.length === 0) {
       logger.info(`No dogs found with the given criteria`);
@@ -90,9 +89,7 @@ exports.deleteDog = async (id, deleteData) => {
     _id: id,
     isDeleted: false
   };
-  console.log(`Deleting dog with filter:`, filter);
   const dog = await repo.update(filter, deleteData);
-  console.log(`Delete result for ID ${id}:`, dog);
   if (!dog) {
     logger.error(`Dog not found with ID: ${id}`);
     throw new AppError(`${MSG.DOG_NOT_FOUND} ${id}`, 404, ERRORS.NOT_FOUND);

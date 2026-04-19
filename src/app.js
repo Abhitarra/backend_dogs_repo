@@ -3,11 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const rateLimit = require("express-rate-limit");
 
 const dogRoutes = require('./routes/dog.routes');
 const errorHandler = require('./middlewares/error.middleware');
 const connectDB = require('./config/db');
-const rateLimit = require("express-rate-limit");
+const logger = require('./utils/logger');
+
 
 // apply to all routes
 const app = express();
@@ -43,7 +45,7 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   connectDB();
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });
 
 

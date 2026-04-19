@@ -16,8 +16,6 @@ exports.forgotPassword = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-  console.log("Received reset password request with body:", req.body);
   const result = await authService.resetPassword(req.body);
-  console.log("Reset password result:", result);
   res.json(result);
 };
