@@ -32,7 +32,7 @@ app.use(compression());
 app.use(limiter);
 
 app.use("/auth", require("./routes/auth.routes"));
-app.use('/dogs', dogRoutes);
+app.use('/api/dogs', dogRoutes);
 
 app.get('/', (req, res) => {
   res.send('Dogs API is running 🚀');
