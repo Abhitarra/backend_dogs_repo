@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user"
     },
-    isVerified: { type: Boolean, default: true } // simplify (skip OTP for now)
+    isVerified: { type: Boolean, default: true }, // simplify (skip OTP for now)
+    resetToken: { type: String },
+    resetTokenExpiry: { type: Date }
   },
   { timestamps: true },
 );

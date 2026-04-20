@@ -19,3 +19,13 @@ exports.resetPassword = async (req, res) => {
   const result = await authService.resetPassword(req.body);
   res.json(result);
 };
+
+// exports.sendOtp = async (req, res) => {
+//   const result = await authService.sendOtp(req.body.email);
+//   res.json(result);
+// };
+
+// exports.verifyOtp = async (req, res) => {
+//   const result = await authService.verifyOtp(req.body);
+//   res.json(result);
+// };
