@@ -17,7 +17,7 @@ exports.update = async(filter, data) => {
     {
       ...data,
       updatedAt: new Date()
-    }, { new: true }
+    }, { returnDocument: "after" } 
   );
 }
 
