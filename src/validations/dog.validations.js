@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const nameRegex = /^[A-Za-z]+$/;
+const nameRegex = /^[A-Za-z\s]+$/;
 
 const createDogSchema = Joi.object({
   breed: Joi.string()
