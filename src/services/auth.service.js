@@ -8,7 +8,7 @@ const logger = require("../utils/logger");
 exports.signup = async ({ email, password }) => {
   const existing = await User.findOne({ email });
   if (existing) throw new Error("User already exists");
-   
+
   const hashed = await bcrypt.hash(password, 10);
 
   const user = await User.create({
@@ -43,10 +43,7 @@ exports.forgotPassword = async (email) => {
   if (!user) return { success: false, message: "User not found" };
   const token = crypto.randomBytes(32).toString("hex");
 
-  const hashedToken = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
   user.resetToken = hashedToken;
   user.resetTokenExpiry = Date.now() + 15 * 60 * 1000; // 15 min
@@ -60,12 +57,9 @@ exports.forgotPassword = async (email) => {
   logger.info(`Password reset link sent to ${email}`);
   return { success: true };
 };
-``
-exports.resetPassword = async ({ token, password }) => { 
-  const hashedToken = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
+``;
+exports.resetPassword = async ({ token, password }) => {
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
   const user = await User.findOne({
     resetToken: hashedToken,
@@ -84,8 +78,7 @@ exports.resetPassword = async ({ token, password }) => {
   return { success: true };
 };
 
-async function sendEmail (email, resetLink) {
-
+async function sendEmail(email, resetLink) {
   // ✅ transporter
   const transporter = nodemailer.createTransport({
     service: "gmail", // simpler than host/port
@@ -101,13 +94,25 @@ async function sendEmail (email, resetLink) {
     to: email,
     subject: "Password Reset OTP",
     html: `
-      <p>Click below to reset your password:</p>
-      <a href="${resetLink}">Reset Password</a>
+      <h2 style="color:#2c3e50;">Reset Your Password</h2>
+      <p>Hello, ${email.split("@")[0]}</p>
+      <p>We received a request to reset your account password.</p>
+
+      <p style="text-align:center;">
+        <a href="${resetLink}" style="background:#007bff;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">
+          Reset Password
+        </a>
+      </p>
+
+      <p>This link expires in 15 minutes.</p>
+      <p>If you didn’t request this, ignore this email.</p>
+
+      <p>Thanks,<br/>Support Team</p>
     `,
   });
   logger.info(`Email sent to ${email}`);
-  return { success: true};
-};
+  return { success: true };
+}
 
 // exports.verifyOtp = async ({ email, otp }) => {
 //   const user = await User.findOne({ email });
@@ -132,4 +137,3 @@ async function sendEmail (email, resetLink) {
 
 //   return { success: true, message: "OTP verified" };
 // };
-
